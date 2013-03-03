@@ -704,7 +704,7 @@ public class SoftKeyboard extends InputMethodService
     				FileWriter fileWriter =  new FileWriter(logFile, true);
     				BufferedWriter out = new BufferedWriter(fileWriter);
     				for (KeyStroke keyStroke : keyStrokes.keyStrokes) {
-						out.write(keyStroke.key + " " + (keyStroke.isOnPress ? "OnPress" : "Release") + keyStroke.time);
+						out.write(keyStroke.key + " " + (keyStroke.isOnPress ? "OnPress " : "Release ") + keyStroke.time);
 						out.write("\n");
 					}
     				

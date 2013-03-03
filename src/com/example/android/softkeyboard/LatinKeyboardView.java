@@ -28,6 +28,7 @@ public class LatinKeyboardView extends KeyboardView {
 
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setPreviewEnabled(false);
     }
 
     public LatinKeyboardView(Context context, AttributeSet attrs, int defStyle) {
