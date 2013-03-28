@@ -687,7 +687,7 @@ public class SoftKeyboard extends InputMethodService
     
     public void onPress(int primaryCode) {
     	//Toast.makeText(this, "Key Pressed: " + primaryCode, Toast.LENGTH_LONG).show();
-    	keyStrokes.keyStrokes.add(new KeyStroke((char)primaryCode, System.currentTimeMillis(), true) );
+    	keyStrokes.keyStrokes.add(new KeyStroke((char)primaryCode, primaryCode, System.currentTimeMillis(), true) );
     }
     
     public void onRelease(int primaryCode) {
@@ -704,7 +704,7 @@ public class SoftKeyboard extends InputMethodService
     				FileWriter fileWriter =  new FileWriter(logFile, true);
     				BufferedWriter out = new BufferedWriter(fileWriter);
     				for (KeyStroke keyStroke : keyStrokes.keyStrokes) {
-						out.write(keyStroke.key + " " + (keyStroke.isOnPress ? "OnPress " : "Release ") + keyStroke.time);
+						out.write((keyStroke.isOnPress ? "KEY_DOWN," : "KEY_UP,") + String.valueOf(keyStroke.keyCode) + ","  + keyStroke.time+ "," + keyStroke.key);
 						out.write("\n");
 					}
     				
@@ -725,6 +725,6 @@ public class SoftKeyboard extends InputMethodService
     		return;
     	}
     	
-    	keyStrokes.keyStrokes.add(new KeyStroke((char)primaryCode, System.currentTimeMillis(), false));
+    	keyStrokes.keyStrokes.add(new KeyStroke((char)primaryCode, primaryCode, System.currentTimeMillis(), false));
     }
 }
