@@ -703,8 +703,21 @@ public class SoftKeyboard extends InputMethodService
     			{
     				FileWriter fileWriter =  new FileWriter(logFile, true);
     				BufferedWriter out = new BufferedWriter(fileWriter);
+    				StringBuilder sb = new StringBuilder();
+    				for(KeyStroke keyStroke : keyStrokes.keyStrokes)
+    				{
+    					if(keyStroke.isOnPress)
+    					{
+    						if(keyStroke.keyCode == 5)
+    							sb.append('<');
+    						else
+    							sb.append(keyStroke.key);
+    					}
+    				}
+    				
+    				out.write("INPUT_STREAM," + sb.toString() + "\n");
     				for (KeyStroke keyStroke : keyStrokes.keyStrokes) {
-						out.write((keyStroke.isOnPress ? "KEY_DOWN," : "KEY_UP,") + String.valueOf(keyStroke.keyCode) + ","  + keyStroke.time+ "," + keyStroke.key);
+						out.write((keyStroke.isOnPress ? "KEY_DOWN," : "KEY_UP,") + String.valueOf(keyStroke.keyCode) + ","  + keyStroke.time+ "," + (keyStroke.keyCode !=-5 ? keyStroke.key : '<'));
 						out.write("\n");
 					}
     				
