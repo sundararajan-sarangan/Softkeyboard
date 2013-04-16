@@ -708,10 +708,15 @@ public class SoftKeyboard extends InputMethodService
     				{
     					if(keyStroke.isOnPress)
     					{
-    						if(keyStroke.keyCode == 5)
-    							sb.append('<');
+    						//Toast.makeText(this, String.valueOf(keyStroke.keyCode), Toast.LENGTH_SHORT);
+    						if(keyStroke.keyCode == -5)
+    						{
+    							sb.append('<');    							
+    						}
     						else
+    						{
     							sb.append(keyStroke.key);
+    						}
     					}
     				}
     				
